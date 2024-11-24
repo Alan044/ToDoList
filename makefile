@@ -8,5 +8,8 @@ Main: Main.c
 	gcc -o Main Main.c 
 run: 
 	./Main
+val_main: 
+	valgrind ./Main
+
 clean:
 	rm -f Main
