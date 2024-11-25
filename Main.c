@@ -20,7 +20,7 @@ struct arr_task {
 
 tasks* create_array()
 {
-    tasks* arr = calloc(1, sizeof(task_t*));
+    tasks* arr = calloc(1, sizeof(tasks));
     arr->array_of_tasks = calloc(arr->index, sizeof(task_t*));
     arr->index = 0;
     return arr;
@@ -44,7 +44,7 @@ task_t* create_task_info(tasks* arr)
     char buf[100];
     char date[100];
 
-    printf("what is the name of the task? \n");
+    printf("What is the name of the task? \n");
     scanf("%99s", buf);
 
     printf("When is the task due ?  \n ");
@@ -86,13 +86,25 @@ void destroy(tasks* arr)
 int main(void) 
 {
     tasks* arr = create_array();
-    task_t* task = create_task_info(arr);
-    task_t* task2 = create_task_info(arr);
-    print_tasks(arr);
     
-    destroy(arr);
-    printf("trying git tag ");
 
-    
+    while (true) {
+        printf("What is your choice of the day? (A: Add, L: List, Q: Quit)\n");
+
+        char answer;
+        scanf(" %c", &answer);  
+
+        if (answer == 'A') {
+            create_task_info(arr);
+        } else if (answer == 'L') {
+            print_tasks(arr);
+        } else if (answer == 'Q') {
+            destroy(arr);
+            break;
+        } else {
+            printf("Invalid choice! Please enter A, L, or Q.\n");
+        }
+    }
+
     return 0;
 }
