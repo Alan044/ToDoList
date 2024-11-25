@@ -91,6 +91,7 @@ int main(void)
     print_tasks(arr);
     
     destroy(arr);
+    printf("trying git tag ");
 
     
     return 0;
