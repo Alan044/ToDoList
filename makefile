@@ -1,16 +1,22 @@
 CC = gcc
 CFLAGS = -I./raylib/include
 
-all: Main
-
-Main: Main.c
-	gcc `pkg-config --cflags gtk+-3.0` -o Main Main.c `pkg-config --libs gtk+-3.0`
+all: util main
 
 
-run: 
-	./Main
+main: Main.c 
+	gcc -c -o main.o Main.c
+
+util: util.c util.h
+	gcc -c -o util.o util.c
+
+
+test: 
+	gcc -Wall -o run util.o main.o
+	./run
+
 val_main: 
 	valgrind ./Main
 
 clean:
-	rm -f Main
+	rm -f main.o util.o run test

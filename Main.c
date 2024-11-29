@@ -1,8 +1,10 @@
+#pragma once
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include "util.h"
 typedef struct task task_t;
 typedef struct arr_task tasks;
 typedef struct info info_t;
@@ -35,35 +37,6 @@ tasks* create_array()
     arr->array_of_tasks = calloc(arr->capacity, sizeof(task_t*));
     arr->size = 0;
     return arr;
-}
-
-char* ask_date() 
-{
-    char buf[256];
-    printf("When is the task due? \n");
-    printf("Please write the following date on this format xxxx-xx-xx \n");
-    scanf("%255s", buf);
-    char* error = "Invalid date";
-    
-    if(strlen(buf) > 10 || strlen(buf) < 10)
-    {
-        printf("test1");
-        return error;
-    }
-
-    for (int i = 0; i < 11; i++) 
-    {
-        if (!(buf[4] == '-' && buf[7] == '-')) {
-            return error;
-        }
-
-        if(isdigit(buf[i])) {
-            return strdup(buf);
-        } else {
-            printf("test3");
-            return error;
-        }
-    }
 }
 
 void resize_array(tasks* arr) 
