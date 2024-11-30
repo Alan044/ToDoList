@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -I./raylib/include
 
-all: util main
+all: util main test
 
 
 main: Main.c 
@@ -13,10 +13,9 @@ util: util.c util.h
 
 test: 
 	gcc -Wall -o run util.o main.o
-	./run
 
 val_main: 
-	valgrind ./Main
+	valgrind --track-origins=yes --leak-check=full -s ./run
 
 clean:
 	rm -f main.o util.o run test
