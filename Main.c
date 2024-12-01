@@ -18,15 +18,11 @@ int main(void) {
         } else if (answer == 'L') {
             print_tasks(arr);
         } else if (answer == 'R') {
-            printf("what is the task you would like to remove \n");
-            char answer[256];
-            scanf("%255s", answer);
-            remove_task(arr, answer);
+            char* task_to_remove = ask_name();
+            remove_task(arr, task_to_remove);
         } else if (answer == 'E') {
-            printf("what is the task you would like to remove \n");
-            char answer[256];
-            scanf("%255s", answer);
-            edit_task(arr, answer);
+            char* task_to_edit = ask_name();
+            edit_task(arr, task_to_edit);
         } else if (answer == 'Q') {
             destroy(arr);
             break;

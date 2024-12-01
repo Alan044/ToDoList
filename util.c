@@ -138,7 +138,7 @@ task_t* create_task(char* name, char* date, tasks* arr)
     task_t* new_task = calloc(1, sizeof(task_t));
     info_t* info_i = calloc(1, sizeof(info_t));
 
-    new_task->name = strdup(name);
+    new_task->name = name;
     new_task->date = date;
     new_task->info = info_i;
     new_task->info->index = arr->size;
@@ -150,13 +150,9 @@ task_t* create_task(char* name, char* date, tasks* arr)
 
 task_t* create_task_info(tasks* arr) 
 {
-    char buf[100];
-
-    printf("What is the name of the task? \n");
-    scanf(" %99s", buf);
-
+    char* task = ask_name();
     char* date = ask_date();
-    return create_task(buf, date, arr);
+    return create_task(task, date, arr);
 }
 
 void print_tasks(tasks* arr) 
@@ -222,24 +218,26 @@ void remove_task(tasks*arr, char*name_to_remove)
     printf("Could not find that task, here is the list again \n");
     print_tasks(arr);
 }
-
+char* ask_task()
+{
+    char buf[100];
+    printf("What should the new name be: ?\n");
+    scanf(" %99s", buf);
+    return strdup(buf);
+}
 void edit_task(tasks* arr, char* name_to_edit)
 {
     option_t result = valid_name(arr, name_to_edit);
     if (result.valid)
     {
-        char buf[100];
-
-        printf("What should the new name be: ?\n");
-        scanf(" %99s", buf);
-
+        char* name = ask_task();
         char* date = ask_date();
 
         task_t *task = arr->array_of_tasks[result.index];
         char* free_name = arr->array_of_tasks[result.index]->name;
         char* free_date = arr->array_of_tasks[result.index]->date;
         task->date = date;
-        task->name = strdup(buf);
+        task->name = name;
         free(free_date); 
         free(free_name); 
         return;

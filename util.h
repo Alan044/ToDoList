@@ -48,3 +48,7 @@ void edit_task(tasks* arr, char* name_to_edit);
 void destroy(tasks* arr);
 
 tasks* create_array(); 
+
+char* ask_date();
+
+char* ask_name();
