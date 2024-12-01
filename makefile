@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -I./raylib/include
 
-all: util main test
+all: main util test
 
 
 main: Main.c 

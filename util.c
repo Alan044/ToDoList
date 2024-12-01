@@ -108,37 +108,7 @@ char* ask_date()
     }    
 }
 
-typedef struct task task_t;
-typedef struct arr_task tasks;
-typedef struct info info_t;
-typedef struct option option_t;
 
-struct info 
-{
-    int index;
-    int days_left;
-    char* category;
-};
-
-struct task 
-{
-    char* name;
-    char* date;
-    info_t* info;
-};
-
-struct arr_task 
-{
-    task_t** array_of_tasks;
-    int size;
-    int capacity;  
-};
-
-struct option
-{
-    bool valid;
-    int index;
-};
 
 tasks* create_array() 
 {
@@ -217,12 +187,10 @@ option_t valid_name(tasks* arr, char *name_to_remove)
     {
         if (strcmp(arr->array_of_tasks[i]->name,name_to_remove) == 0) {
             option_t option = {.valid = true, .index = i};
-            printf("test2");
             return option;
         }
     
     }
-    printf("test\n");
     option_t option = {.valid = false, .index = arr->capacity + 1};
     return option;
 }
@@ -254,3 +222,27 @@ void remove_task(tasks*arr, char*name_to_remove)
     printf("Could not find that task, here is the list again \n");
     print_tasks(arr);
 }
+
+void edit_task(tasks* arr, char* name_to_edit)
+{
+    option_t result = valid_name(arr, name_to_edit);
+    if (result.valid)
+    {
+        char buf[100];
+
+        printf("What should the new name be: ?\n");
+        scanf(" %99s", buf);
+
+        char* date = ask_date();
+
+        task_t *task = arr->array_of_tasks[result.index];
+        char* free_name = arr->array_of_tasks[result.index]->name;
+        char* free_date = arr->array_of_tasks[result.index]->date;
+        task->date = date;
+        task->name = strdup(buf);
+        free(free_date); 
+        free(free_name); 
+        return;
+    }
+    printf("Could not find the name ");
+}   
