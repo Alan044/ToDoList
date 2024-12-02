@@ -10,7 +10,13 @@ typedef struct task task_t;
 typedef struct arr_task tasks;
 typedef struct info info_t;
 typedef struct option option_t;
+typedef struct input input_t;
 
+struct input
+{
+    bool valid;
+    char* input;
+};
 struct info 
 {
     int index;
@@ -51,4 +57,6 @@ tasks* create_array();
 
 char* ask_date();
 
-char* ask_name();
+char* ask_task();
+
+input_t valid_input(char* input);

@@ -10,26 +10,26 @@ int main(void) {
     while (true) {
         printf("What is your choice of the day? (A: Add, L: List, R: Remove, E: Edit, Q: Quit)\n");
 
-        char answer;
-        scanf(" %c", &answer);
-
-        if (answer == 'A') {
+        char answer[99];
+        scanf(" %98s", answer);
+    if (valid_input(answer).valid) {
+        if (strcmp(answer, "A") == 0) {
             create_task_info(arr);
-        } else if (answer == 'L') {
+        } else if (strcmp(answer, "L") == 0) {
             print_tasks(arr);
-        } else if (answer == 'R') {
-            char* task_to_remove = ask_name();
+        } else if (strcmp(answer, "R") == 0) {
+            char* task_to_remove = ask_task();
             remove_task(arr, task_to_remove);
-        } else if (answer == 'E') {
-            char* task_to_edit = ask_name();
+        } else if (strcmp(answer, "E") == 0) {
+            char* task_to_edit = ask_task();
             edit_task(arr, task_to_edit);
-        } else if (answer == 'Q') {
+        } else if (strcmp(answer, "Q") == 0) {
             destroy(arr);
             break;
-        } else {
-            printf("Invalid choice! Please enter A, L, R, E or Q.\n");
-        }
+        }    
+    } else {
+        printf("Invalid, these are the options \n");
     }
-
+ }
     return 0;
 }

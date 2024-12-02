@@ -6,6 +6,22 @@
 #include "util.h"
 #include <stdlib.h>
 
+input_t valid_input(char* input)
+{
+    if (strlen(input) > 1) {
+        input_t input = { .input = "p", .valid = false};
+        return input;    
+    }
+    char* valid_answers[] = {"A", "L", "R", "E", "Q"};
+    for (int i = 0; i < 5; i++) {
+        if (strcmp(input, valid_answers[i])) {
+            input_t input2 = { .valid = true, .input = input};
+            return input2;
+        } 
+    }
+    input_t input2 = { .input = "p", .valid = false};
+    return input2;
+}
 
 static bool valid_month(char* buf, char* error)
 {
@@ -81,26 +97,21 @@ char* ask_date()
         
         if (!(buf[0] == '2')) {
             printf("%s \n", error);
-            printf("test1");
             break;
         }
         if(!(valid_length_and_char(buf, error))) {
-            printf("test2");
             break;
         }
         if(!(valid_month(buf, error))) {
-            printf("test3");
             break;
         }
         if(!(valid_days(buf, error))) {
-            printf("test4");
             break;
         }
         
             if(isdigit(buf[i])) {
                 return strdup(buf);
             } else {
-            printf("te3");
             printf("%s \n", error);
             break;
             }
@@ -108,6 +119,13 @@ char* ask_date()
     }    
 }
 
+char* ask_task()
+{
+    char buf[100];
+    printf("What should the new name be: ?\n");
+    scanf(" %99s", buf);
+    return strdup(buf);
+}
 
 
 tasks* create_array() 
@@ -150,7 +168,7 @@ task_t* create_task(char* name, char* date, tasks* arr)
 
 task_t* create_task_info(tasks* arr) 
 {
-    char* task = ask_name();
+    char* task = ask_task();
     char* date = ask_date();
     return create_task(task, date, arr);
 }
@@ -217,13 +235,6 @@ void remove_task(tasks*arr, char*name_to_remove)
     }
     printf("Could not find that task, here is the list again \n");
     print_tasks(arr);
-}
-char* ask_task()
-{
-    char buf[100];
-    printf("What should the new name be: ?\n");
-    scanf(" %99s", buf);
-    return strdup(buf);
 }
 void edit_task(tasks* arr, char* name_to_edit)
 {
