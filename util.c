@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <sys/types.h>
 #include <time.h>
 #include "util.h"
 #include <stdlib.h>
@@ -84,7 +85,7 @@ static bool valid_length_and_char(char* buf, char* error)
     }
     return true;
 }
-
+  
 char* ask_date() 
 {
     char buf[256];
@@ -118,6 +119,7 @@ char* ask_date()
         }
     }    
 }
+
 
 char* ask_task()
 {
@@ -160,6 +162,8 @@ task_t* create_task(char* name, char* date, tasks* arr)
     new_task->date = date;
     new_task->info = info_i;
     new_task->info->index = arr->size;
+    int total_days = calculate_days(new_task);
+    new_task->info->days_left = total_days;
 
     arr->array_of_tasks[arr->size] = new_task;
     arr->size += 1;
@@ -178,7 +182,9 @@ void print_tasks(tasks* arr)
     for (int i = 0; i < arr->size; i++) 
     {
         task_t* task = arr->array_of_tasks[i];
-        printf("Task: %s, Due Date: %s\n", task->name, task->date);
+        printf("Task: %s, Due Date: %s, Total amount of days left %d\n", task->name, 
+                                                                                 task->date,
+                                                                                 task->info->days_left);
     }
 }
 
@@ -255,3 +261,42 @@ void edit_task(tasks* arr, char* name_to_edit)
     }
     printf("Could not find the name ");
 }   
+
+int calculate_days(task_t* task)
+{
+    time_t now = time(NULL);
+    struct tm *current = localtime(&now);
+    char* year = calloc(1,5*sizeof(char));
+    memcpy(year, task->date, 4);
+    year[4] = '\0';
+
+    char* month = calloc(1,3*sizeof(char));
+    strncpy(month, task->date + 5, 2);
+    month[2] = '\0';
+    
+
+    char* day = calloc(1,3*sizeof(char));
+    strncpy(day, task->date + 8, 2);
+    day[2] = '\0';
+    struct tm *task_date = localtime(&now);
+
+    int year_int = atoi(year);
+    int month_int = atoi(month) -1;
+    if (day[0] == '0') {
+        int day_int = atoi(&day[1]);
+        task_date->tm_mday = day_int; 
+    } else {
+        int day_int = atoi(day);    
+        task_date->tm_mday = day_int; 
+    }
+    task_date->tm_year = year_int - 1900; 
+    task_date->tm_mon = month_int; 
+
+    int seconds = difftime(mktime(task_date) ,  now);
+    int days = seconds / (60* 60 * 24);
+    free(year);
+    free(month);
+    free(day);   
+    return days;
+}
+

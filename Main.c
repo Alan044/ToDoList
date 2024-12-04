@@ -6,7 +6,13 @@
 
 int main(void) {
     tasks* arr = create_array();
-
+    time_t now = time(NULL);
+    struct tm *current = localtime(&now);
+    printf("Current local time is: %s \n", asctime(current));
+    printf("Current year is : %d \n", current->tm_year + 1900);
+    printf("Current month: %d \n", current->tm_mon + 1);
+    printf("Current day: %d \n", current->tm_mday);
+    
     while (true) {
         printf("What is your choice of the day? (A: Add, L: List, R: Remove, E: Edit, Q: Quit)\n");
 
@@ -20,9 +26,11 @@ int main(void) {
         } else if (strcmp(answer, "R") == 0) {
             char* task_to_remove = ask_task();
             remove_task(arr, task_to_remove);
+            free(task_to_remove);
         } else if (strcmp(answer, "E") == 0) {
             char* task_to_edit = ask_task();
             edit_task(arr, task_to_edit);
+            free(task_to_edit);
         } else if (strcmp(answer, "Q") == 0) {
             destroy(arr);
             break;

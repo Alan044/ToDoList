@@ -60,3 +60,5 @@ char* ask_date();
 char* ask_task();
 
 input_t valid_input(char* input);
+
+int calculate_days(task_t* task);
