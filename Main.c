@@ -8,10 +8,13 @@ int main(void) {
     tasks* arr = create_array();
     time_t now = time(NULL);
     struct tm *current = localtime(&now);
+    char* test = "07";
+    int test1 = atoi(test);
     printf("Current local time is: %s \n", asctime(current));
     printf("Current year is : %d \n", current->tm_year );
     printf("Current month: %d \n", current->tm_mon + 1);
     printf("Current day: %d \n", current->tm_mday);
+    printf("Current day: %d \n", test1);
     
     while (true) {
         printf("What is your choice of the day? (A: Add, L: List, R: Remove, E: Edit, Q: Quit)\n");

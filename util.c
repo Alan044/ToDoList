@@ -59,7 +59,7 @@ bool valid_year(char* buf, char* error)
     day[2] = '\0';
 
     int task_year = atoi(year) - 1900;
-    int task_month = atoi(month) + 1;
+    int task_month = atoi(month) - 1;
     int task_day = atoi(day);
     if (task_year < current_year) {
 
@@ -69,25 +69,31 @@ bool valid_year(char* buf, char* error)
         free(day);   
         
         return false;
-    } else if (task_year == current_year) {
-            if (task_month == current_month) {
-                if (!(task_day <= current_day)) {
+    } else if (task_year == current_year) 
+    {
+            if (task_month == current_month) 
+            {
+                if (task_day > current_day)
+                {
+                    printf("asd1");
                     free(year);
                     free(month);
                     free(day);   
                     return true;
                 }
             printf("%s", error);
+            printf("asd12");
             free(year);
             free(month);
             free(day);   
             return false;
             }
-            printf("%s", error);
-            free(year);
-            free(month);
-            free(day);   
-            return false;
+        printf("%s", error);
+        printf("asd123");
+        free(year);
+        free(month);
+        free(day);   
+        return false;
     }
     free(year);
     free(month);
