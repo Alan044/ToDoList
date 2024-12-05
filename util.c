@@ -280,6 +280,7 @@ int calculate_days(task_t* task)
     day[2] = '\0';
     struct tm *task_date = localtime(&now);
 
+
     int year_int = atoi(year);
     int month_int = atoi(month) -1;
     if (day[0] == '0') {
@@ -289,7 +290,7 @@ int calculate_days(task_t* task)
         int day_int = atoi(day);    
         task_date->tm_mday = day_int; 
     }
-    task_date->tm_year = year_int - 1900; 
+    task_date->tm_year = year_int -1900; 
     task_date->tm_mon = month_int; 
 
     int seconds = difftime(mktime(task_date) ,  now);

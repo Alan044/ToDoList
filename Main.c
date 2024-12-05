@@ -9,7 +9,7 @@ int main(void) {
     time_t now = time(NULL);
     struct tm *current = localtime(&now);
     printf("Current local time is: %s \n", asctime(current));
-    printf("Current year is : %d \n", current->tm_year + 1900);
+    printf("Current year is : %d \n", current->tm_year );
     printf("Current month: %d \n", current->tm_mon + 1);
     printf("Current day: %d \n", current->tm_mday);
     
