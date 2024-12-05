@@ -24,53 +24,6 @@ input_t valid_input(char* input)
     return input2;
 }
 
-static bool valid_month(char* buf, char* error)
-{
-
-    if ((buf[5] != '1' && buf[5] != '0')) {
-        printf("%s \n", error);
-        return false;
-    }
-    if (buf[5] == '1') {
-        if(buf[6] == '0'||  buf[6] == '2'|| buf[6] == '1') {
-            return true;
-        }
-        printf("%s \n", error);
-        return false;
-    }
-    if (buf[5] == '0') {
-        if(buf[6] != '0') {
-            return true;
-        }
-        printf("%s \n", error);
-        return false;
-    }
-    return true;
-}
-
-static bool valid_days(char* buf, char* error)
-{
-    if ((buf[8] != '2' && buf[8] != '0' && buf[8] != '3' && buf[8] != '1')) {
-        printf("%s \n", error);
-        return false;
-    }
-    if (buf[8] == '3') {
-        if (buf[9] == '1' || buf[9] == '0' ) {
-            return true;
-        }
-        printf("%s \n", error);
-        return false;
-    }
-    if (buf[8] == '0') {
-        if(buf[9] != '0') {
-            return true;
-        }
-        printf("%s \n", error);
-        return false;
-    }
-    return true;
-}
-
 static bool valid_length_and_char(char* buf, char* error)
 {
     if(strlen(buf) > 10 || strlen(buf) < 10)
@@ -85,6 +38,62 @@ static bool valid_length_and_char(char* buf, char* error)
     }
     return true;
 }
+
+bool valid_year(char* buf, char* error)
+{
+    time_t now = time(NULL);
+    struct tm *current = localtime(&now);
+
+    int current_year = current->tm_year;
+    int current_month = current->tm_mon;
+    int current_day = current->tm_mday;
+
+    char* year = calloc(1,5*sizeof(char));
+    memcpy(year, buf, 4);
+    year[4] = '\0';
+    char* month = calloc(1,3*sizeof(char));
+    strncpy(month, buf + 5, 2);
+    month[2] = '\0';
+    char* day = calloc(1,3*sizeof(char));
+    strncpy(day, buf + 8, 2);
+    day[2] = '\0';
+
+    int task_year = atoi(year) - 1900;
+    int task_month = atoi(month) + 1;
+    int task_day = atoi(day);
+    if (task_year < current_year) {
+
+        printf("%s", error);
+        free(year);
+        free(month);
+        free(day);   
+        
+        return false;
+    } else if (task_year == current_year) {
+            if (task_month == current_month) {
+                if (!(task_day <= current_day)) {
+                    free(year);
+                    free(month);
+                    free(day);   
+                    return true;
+                }
+            printf("%s", error);
+            free(year);
+            free(month);
+            free(day);   
+            return false;
+            }
+            printf("%s", error);
+            free(year);
+            free(month);
+            free(day);   
+            return false;
+    }
+    free(year);
+    free(month);
+    free(day);   
+    return true;
+}
   
 char* ask_date() 
 {
@@ -95,18 +104,13 @@ char* ask_date()
     scanf("%255s", buf);
     char* error = "Invalid date";
     for (int i = 0; i < 10; i++ ) {
-        
-        if (!(buf[0] == '2')) {
+
+
+        if (!(valid_year(buf, error))) {
             printf("%s \n", error);
             break;
         }
         if(!(valid_length_and_char(buf, error))) {
-            break;
-        }
-        if(!(valid_month(buf, error))) {
-            break;
-        }
-        if(!(valid_days(buf, error))) {
             break;
         }
         
