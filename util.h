@@ -11,6 +11,16 @@ typedef struct arr_task tasks;
 typedef struct info info_t;
 typedef struct option option_t;
 typedef struct input input_t;
+typedef struct date date_t;
+
+
+struct date
+{
+    char* year;
+    char* month;
+    char* day;
+};
+
 
 struct input
 {

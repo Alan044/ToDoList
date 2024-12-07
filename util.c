@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include "util.h"
+#include "helper.h"
 #include <stdlib.h>
 
 input_t valid_input(char* input)
@@ -22,83 +23,6 @@ input_t valid_input(char* input)
     }
     input_t input2 = { .input = "p", .valid = false};
     return input2;
-}
-
-static bool valid_length_and_char(char* buf, char* error)
-{
-    if(strlen(buf) > 10 || strlen(buf) < 10)
-    {
-        printf("%s \n", error);
-        return false;
-    }        
-    if ((buf[4] != '-' || buf[7] != '-'))
-    {
-        printf("%s \n", error);
-        return false;
-    }
-    return true;
-}
-
-bool valid_year(char* buf, char* error)
-{
-    time_t now = time(NULL);
-    struct tm *current = localtime(&now);
-
-    int current_year = current->tm_year;
-    int current_month = current->tm_mon;
-    int current_day = current->tm_mday;
-
-    char* year = calloc(1,5*sizeof(char));
-    memcpy(year, buf, 4);
-    year[4] = '\0';
-    char* month = calloc(1,3*sizeof(char));
-    strncpy(month, buf + 5, 2);
-    month[2] = '\0';
-    char* day = calloc(1,3*sizeof(char));
-    strncpy(day, buf + 8, 2);
-    day[2] = '\0';
-
-    int task_year = atoi(year) - 1900;
-    int task_month = atoi(month) - 1;
-    int task_day = atoi(day);
-    if (task_year < current_year) {
-
-        printf("%s", error);
-        free(year);
-        free(month);
-        free(day);   
-        
-        return false;
-    } else if (task_year == current_year) 
-    {
-            if (task_month == current_month) 
-            {
-                if (task_day > current_day)
-                {
-                    printf("asd1");
-                    free(year);
-                    free(month);
-                    free(day);   
-                    return true;
-                }
-            printf("%s", error);
-            printf("asd12");
-            free(year);
-            free(month);
-            free(day);   
-            return false;
-            }
-        printf("%s", error);
-        printf("asd123");
-        free(year);
-        free(month);
-        free(day);   
-        return false;
-    }
-    free(year);
-    free(month);
-    free(day);   
-    return true;
 }
   
 char* ask_date() 
@@ -129,7 +53,6 @@ char* ask_date()
         }
     }    
 }
-
 
 char* ask_task()
 {
@@ -193,8 +116,8 @@ void print_tasks(tasks* arr)
     {
         task_t* task = arr->array_of_tasks[i];
         printf("Task: %s, Due Date: %s, Total amount of days left %d\n", task->name, 
-                                                                                 task->date,
-                                                                                 task->info->days_left);
+                                                                         task->date,
+                                                                         task->info->days_left);
     }
 }
 
@@ -270,34 +193,23 @@ void edit_task(tasks* arr, char* name_to_edit)
         return;
     }
     printf("Could not find the name ");
-}   
+}
 
 int calculate_days(task_t* task)
 {
     time_t now = time(NULL);
     struct tm *current = localtime(&now);
-    char* year = calloc(1,5*sizeof(char));
-    memcpy(year, task->date, 4);
-    year[4] = '\0';
-
-    char* month = calloc(1,3*sizeof(char));
-    strncpy(month, task->date + 5, 2);
-    month[2] = '\0';
     
-
-    char* day = calloc(1,3*sizeof(char));
-    strncpy(day, task->date + 8, 2);
-    day[2] = '\0';
+    date_t date = task_date(task->date);
     struct tm *task_date = localtime(&now);
 
-
-    int year_int = atoi(year);
-    int month_int = atoi(month) -1;
-    if (day[0] == '0') {
-        int day_int = atoi(&day[1]);
+    int year_int = atoi(date.year);
+    int month_int = atoi(date.month) -1;
+    if (date.day[0] == '0') {
+        int day_int = atoi(&date.day[1]);
         task_date->tm_mday = day_int; 
     } else {
-        int day_int = atoi(day);    
+        int day_int = atoi(date.day);    
         task_date->tm_mday = day_int; 
     }
     task_date->tm_year = year_int -1900; 
@@ -305,9 +217,8 @@ int calculate_days(task_t* task)
 
     int seconds = difftime(mktime(task_date) ,  now);
     int days = seconds / (60* 60 * 24);
-    free(year);
-    free(month);
-    free(day);   
+    free(date.year);
+    free(date.month);
+    free(date.day);   
     return days;
 }
-
