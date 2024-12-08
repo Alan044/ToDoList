@@ -111,6 +111,8 @@ void edit_task(tasks* arr, char* name_to_edit)
         char* free_date = arr->array_of_tasks[result.index]->date;
         task->date = date;
         task->name = name;
+        int days = calculate_days(task);
+        task->info->days_left = days;
         free(free_date); 
         free(free_name); 
         return;

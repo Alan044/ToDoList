@@ -1,6 +1,4 @@
-#ifndef helper.h
-#define helper.h
-#include  "helper.h"
+#include "util.h"
 date_t task_date(char* task);
 
 bool valid_length_and_char(char* buf, char* error);
@@ -20,4 +18,4 @@ int calculate_days(task_t* task);
 
 
 
-#endif 
+ 
