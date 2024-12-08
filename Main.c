@@ -21,10 +21,12 @@ int main(void) {
         } else if (strcmp(answer, "L") == 0) {
             print_tasks(arr);
         } else if (strcmp(answer, "R") == 0) {
+            printf("When is the task you would like to remove? \n");
             char* task_to_remove = ask_task();
             remove_task(arr, task_to_remove);
             free(task_to_remove);
         } else if (strcmp(answer, "E") == 0) {
+            printf("When is the task you would like to edit? \n");
             char* task_to_edit = ask_task();
             edit_task(arr, task_to_edit);
             free(task_to_edit);

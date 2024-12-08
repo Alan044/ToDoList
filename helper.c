@@ -93,7 +93,6 @@ char* ask_date()
 {
     char buf[256];
     while (true) {
-    printf("When is the task due? \n");
     printf("Please write the following date on this format xxxx-xx-xx \n");
     scanf("%255s", buf);
     char* error = "Invalid date";
