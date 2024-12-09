@@ -130,12 +130,20 @@ void edit_task(tasks* arr, char* name_to_edit)
 task_t** sort_array(tasks* arr)
 {
 
-    for (int i = 0; i <= arr->size; i++) 
+    for (int i = 0; i < arr->size - 1; i++) 
     {
         task_t* task = arr->array_of_tasks[i];
-
-        if (task->info->days_left > arr->array_of_tasks[i + 1]->info->days_left) {
+        if (arr->array_of_tasks[i + 1] == NULL)
+        {
+            return arr->array_of_tasks;
+        }
+        
+        if (task->info->days_left > arr->array_of_tasks[i + 1]->info->days_left) 
+        {
+            task_t* task2 = arr->array_of_tasks[i + 1];
             arr->array_of_tasks[i + 1] = task;
+            arr->array_of_tasks[i] = task2;
+
         }
     }
     return arr->array_of_tasks;
@@ -144,8 +152,6 @@ task_t** sort_array(tasks* arr)
 
 void print_ascending(tasks* arr)
 {
-    printf("test");
-    task_t** array_oftask = sort_array(arr);
-    print_tasks(array_oftask,  arr->size);
-
+    task_t** array_of_task = sort_array(arr);
+    print_tasks(array_of_task,  arr->size);
 }

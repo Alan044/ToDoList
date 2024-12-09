@@ -14,7 +14,7 @@ int main(void) {
     printf("Current local time is: %s \n", asctime(current));
     
     while (true) {
-        printf("What is your choice of the day? (A: Add, L: List, R: Remove, E: Edit, Q: Quit)\n");
+        printf("What is your choice of the day? (A: Add, L: List, R: Remove, E: Edit, O: Order the tasks in ascending order, Q: Quit)\n");
         char answer[buffer_Size];
         scanf(" %98s", answer);
     if (valid_input(answer).valid) {
@@ -32,7 +32,7 @@ int main(void) {
             char* task_to_edit = ask_task();
             edit_task(arr, task_to_edit);
             free(task_to_edit);
-        } else if (strcmp(answer, "C") == 0) {
+        } else if (strcmp(answer, "O") == 0) {
             print_ascending(arr);
         } else if (strcmp(answer, "Q") == 0) {
             destroy(arr);
