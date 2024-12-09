@@ -74,3 +74,5 @@ input_t valid_input(char* input);
 int calculate_days(task_t* task);
 
 void print_ascending(tasks* arr);
+
+void print_descending(tasks* arr);

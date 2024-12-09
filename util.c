@@ -127,7 +127,7 @@ void edit_task(tasks* arr, char* name_to_edit)
 
 
 
-task_t** sort_array(tasks* arr)
+task_t** sort_array_ascending(tasks* arr)
 {
 
     for (int i = 0; i < arr->size - 1; i++) 
@@ -148,10 +148,49 @@ task_t** sort_array(tasks* arr)
     }
     return arr->array_of_tasks;
 }
+task_t** sort_array_descending(tasks* arr)
+{
+
+    for (int i = 0; i < arr->size - 1; i++) 
+    {
+        task_t* task = arr->array_of_tasks[i];
+        if (arr->array_of_tasks[i + 1] == NULL)
+        {
+            return arr->array_of_tasks;
+        }
+        
+        if (task->info->days_left < arr->array_of_tasks[i + 1]->info->days_left) 
+        {
+            task_t* task2 = arr->array_of_tasks[i + 1];
+            arr->array_of_tasks[i + 1] = task;
+            arr->array_of_tasks[i] = task2;
+
+        }
+    }
+    return arr->array_of_tasks;
+}
 
 
 void print_ascending(tasks* arr)
 {
-    task_t** array_of_task = sort_array(arr);
+    int size = arr->size;
+    while (size != 0)
+    {
+        task_t** array_of_task = sort_array_ascending(arr);
+        size--;
+    }    
+    task_t** array_of_task = sort_array_ascending(arr);
+    print_tasks(array_of_task,  arr->size);
+}
+
+void print_descending(tasks* arr)
+{
+    int size = arr->size;
+    while (size != 0)
+    {
+        task_t** array_of_task = sort_array_ascending(arr);
+        size--;
+    }    
+    task_t** array_of_task = sort_array_descending(arr);
     print_tasks(array_of_task,  arr->size);
 }
