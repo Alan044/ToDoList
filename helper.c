@@ -169,7 +169,6 @@ option_t valid_name(tasks* arr, char *name_to_remove)
 int calculate_days(task_t* task)
 {
     time_t now = time(NULL);
-    struct tm *current = localtime(&now);
     
     date_t date = task_date(task->date);
     struct tm *task_date = localtime(&now);

@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include "util.h"
 
+
+#define buffer_Size 99
+
 int main(void) {
     tasks* arr = create_array();
     time_t now = time(NULL);
@@ -12,14 +15,13 @@ int main(void) {
     
     while (true) {
         printf("What is your choice of the day? (A: Add, L: List, R: Remove, E: Edit, Q: Quit)\n");
-
-        char answer[99];
+        char answer[buffer_Size];
         scanf(" %98s", answer);
     if (valid_input(answer).valid) {
         if (strcmp(answer, "A") == 0) {
             create_task_info(arr);
         } else if (strcmp(answer, "L") == 0) {
-            print_tasks(arr);
+            print_tasks(arr->array_of_tasks, arr->size);
         } else if (strcmp(answer, "R") == 0) {
             printf("When is the task you would like to remove? \n");
             char* task_to_remove = ask_task();
@@ -30,13 +32,15 @@ int main(void) {
             char* task_to_edit = ask_task();
             edit_task(arr, task_to_edit);
             free(task_to_edit);
+        } else if (strcmp(answer, "C") == 0) {
+            print_ascending(arr);
         } else if (strcmp(answer, "Q") == 0) {
             destroy(arr);
             break;
-        }    
-    } else {
+        }  
+        } else {
         printf("Invalid, these are the options \n");
+        }
     }
- }
     return 0;
 }

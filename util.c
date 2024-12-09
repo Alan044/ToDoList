@@ -44,11 +44,11 @@ task_t* create_task_info(tasks* arr)
     return create_task(task, date, arr);
 }
 
-void print_tasks(tasks* arr) 
+void print_tasks(task_t** arr, int size) 
 {
-    for (int i = 0; i < arr->size; i++) 
+    for (int i = 0; i < size; i++) 
     {
-        task_t* task = arr->array_of_tasks[i];
+        task_t* task = arr[i];
         printf("Task: %s, Due Date: %s, Total amount of days left %d\n", task->name, 
                                                                          task->date,
                                                                          task->info->days_left);
@@ -94,11 +94,11 @@ void remove_task(tasks*arr, char*name_to_remove)
     
         arr->size --;
         printf("removed the task you specified and here is the new list \n");
-        print_tasks(arr);
+        print_tasks(arr->array_of_tasks, arr->size);
         return;
     }
     printf("Could not find that task, here is the list again \n");
-    print_tasks(arr);
+    print_tasks(arr->array_of_tasks, arr->size);
 }
 void edit_task(tasks* arr, char* name_to_edit)
 {
@@ -125,3 +125,27 @@ void edit_task(tasks* arr, char* name_to_edit)
     printf("Could not find the name ");
 }
 
+
+
+task_t** sort_array(tasks* arr)
+{
+
+    for (int i = 0; i <= arr->size; i++) 
+    {
+        task_t* task = arr->array_of_tasks[i];
+
+        if (task->info->days_left > arr->array_of_tasks[i + 1]->info->days_left) {
+            arr->array_of_tasks[i + 1] = task;
+        }
+    }
+    return arr->array_of_tasks;
+}
+
+
+void print_ascending(tasks* arr)
+{
+    printf("test");
+    task_t** array_oftask = sort_array(arr);
+    print_tasks(array_oftask,  arr->size);
+
+}

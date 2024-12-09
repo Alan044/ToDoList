@@ -55,7 +55,7 @@ struct option
 };
 task_t* create_task_info(tasks* arr);
 
-void print_tasks(tasks* arr);
+void print_tasks(task_t** arr, int index);
 
 void remove_task(tasks* arr, char* name_to_remove);
 
@@ -72,3 +72,5 @@ char* ask_task();
 input_t valid_input(char* input);
 
 int calculate_days(task_t* task);
+
+void print_ascending(tasks* arr);
