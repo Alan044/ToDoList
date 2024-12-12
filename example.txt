@@ -1,7 +1,5 @@
-Alan
-Name: Alan, Date:2024-12-13, Total days left 1 
-Name: Niklas, Date:2025-12-12, Total days left 365 
-Name: Max, Date:2026-12-12, Total days left 730 
-Name: Alam, Date:2024-12-24, Total days left 12 
-Name: Niklas, Date:2025-12-12, Total days left 365 
-Name: Max, Date:2027-12-30, Total days left 1113 
+Name: Max, Date: 2024-12-31, Total days left 19 
+Name: Niklas, Date: 2025-12-12, Total days left 365 
+Name: Alan, Date: 2025-12-12, Total days left 365 
+Name: Theodor, Date: 2026-12-12, Total days left 730 
+Name: Lina, Date: 2024-12-28, Total days left 16 
