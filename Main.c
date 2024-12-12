@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 #include "util.h"
 
 
@@ -12,7 +13,11 @@ int main(void) {
     time_t now = time(NULL);
     struct tm *current = localtime(&now);
     printf("Current local time is: %s \n", asctime(current));
-    
+    FILE *test = fopen("example.txt", "a+");
+    if (test == NULL) {
+        perror("Cannot not open a file");
+        return 1;
+    }
     while (true) {
         printf("What is your choice of the day? \n"
                                                  "A: Add \n"
@@ -44,11 +49,21 @@ int main(void) {
         } else if (strcmp(answer, "U") == 0) {
             print_descending(arr);
         } else if (strcmp(answer, "Q") == 0) {
+            for (int i = 0; i < arr->size; i++) 
+            {
+                task_t* task = arr->array_of_tasks[i]; 
+                fprintf(test,"Name: %s, Date: %s, Total days left %d \n",task->name, 
+                                                                                         task->date,
+                                                                                         task->info->days_left);
+            }
+            fclose(test);
             destroy(arr);
             break;
         }  
-        } else {
-        printf("Invalid, these are the options \n");
+        } else 
+        
+        {
+            printf("Invalid, these are the options \n");
         }
     }
     return 0;
